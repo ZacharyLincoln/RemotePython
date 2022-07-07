@@ -11,7 +11,8 @@
 <p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-set-up-remote-python-server">Set up server</a> •
-  <a href="#how-to-set-up-nodes">How To Set Up Nodes</a> •
+  <a href="#run-any-python-script-with-no-external-requirements">Run python script remotely</a> •
+  <a href="#upcoming-features">Upcoming Features</a> •
   <a href="#license">License</a>
 </p>
 
@@ -54,7 +55,7 @@ except Exception:
 # The rest of the script you wish to run remotely below
 ```
 
-## Next steps in development
+## Upcoming Features
 - Add ability to run scripts with external requirements
 
 - Add gui
