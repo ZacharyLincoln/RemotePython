@@ -78,7 +78,7 @@ class RemotePython:
                     exit()
 
     @staticmethod
-    def run(server_hostname="python-runner", path_to_script="", path_to_requirements=""):
+    def run(server_hostname="python-runner", path_to_script="", path_to_requirements="", required_files="", output=False):
 
         # Check to see if user supplied a filename
         if path_to_script == "":
@@ -121,6 +121,24 @@ class RemotePython:
         if not path_to_requirements == "":
             RemotePython.install_requirements(path_to_requirements, ssh, scp)
 
+        if not required_files == "":
+
+            ssh.exec_command("mkdir serv/python-remote/" + filename.replace(".py", ""))
+
+            for file in required_files:
+                scp.put(file, "~/serv/python-remote/" + filename.replace(".py", "") + "/" + file.split("\\")[len(file.split("\\")) - 1])
+
+
+
+            # C:\Users\Zach\Documents\Development\Python\RemotePython
+            # C:\Users\Zach\Documents\Development\Python\RemotePython\main.remote.py
+            filename = filename.replace(".py", "") + "/" + filename
+
+            print("Uploaded")
+
+            # Run script in parent folder
+
+
         # Transfer over the file that the user wants to run via scp.
         scp.put(path_to_script, "~/serv/python-remote/" + filename)
 
@@ -131,9 +149,13 @@ class RemotePython:
         ssh.exec_command("tmux kill-session -t " + session_name)
         ssh.exec_command("tmux new-session -d -s " + session_name +" 'python3 ~/serv/python-remote/" + filename + "'")
 
+        print("tmux new-session -d -s " + session_name +" 'python3 ~/serv/python-remote/" + filename + "'")
         # Let the user know that the script is running on the server.
         print("Running " + filename + " on " + ip)
 
-        print("Outputting console....")
-        RemotePython.output_console(ssh, session_name, filename, ip)
+        if output:
+            print("Outputting console....")
+            RemotePython.output_console(ssh, session_name, filename, ip)
+
+        exit()
 
